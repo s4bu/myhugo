@@ -1,0 +1,47 @@
+baseURL = "https://www.vishalmishra.in/"
+languageCode = "en"
+title = "Vishal Mishra"
+theme = "hugo-nuo"
+enableRobotsTXT = true
+PygmentsCodeFences = true
+canonifyurls = true
+enableEmoji=true
+
+# Disqus Username
+disqusShortname = "vishalmishra"
+
+# Google Analytics UA number
+googleAnalytics = "UA-111664182-1"
+
+# Copyright of your post
+copyright = " © 2019 Vishal (aLt). All Rights Reserved " 
+
+# Initial site menu, you can extend menu with content.
+[[menu.main]]
+  name = "Home"
+  weight = 10
+  identifier = "home"
+  url = "/"
+
+[[menu.main]]
+  name = "Tags"
+  weight = 30
+  identifier = "tags"
+  url = "/tags/"
+
+
+
+# Add your own params here
+[params]
+  author = "Vishal Mishra"
+  avatar = "/img/Me.jpg"
+  seotitle = "Vishal (aLt) Blog "
+  subtitle = "~ Keep It Simple & Stupid ~"
+  description = "Vishal Mishra"
+  paginate = 10
+
+  # Choose your social networks
+  email = "vishal_mishra@live.com"
+  github = "s4bu"
+  twitter = "vishal_alt"
+  linkedin = "m-vishal"
