@@ -13,9 +13,6 @@ disqusShortname = "vishalmishra"
 # Google Analytics UA number
 googleAnalytics = "UA-111664182-1"
 
-# Copyright of your post
-copyright = " © 2019 Vishal (aLt). All Rights Reserved "
-
 # Initial site menu, you can extend menu with content.
 [[menu.main]]
   name = "Home"
