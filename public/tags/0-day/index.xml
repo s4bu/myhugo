@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>0-day on Vishal Mishra</title>
+    <link>https://www.vishalmishra.in/tags/0-day/</link>
+    <description>Recent content in 0-day on Vishal Mishra</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 08 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.vishalmishra.in/tags/0-day/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Automate Manual Static Code Analysis</title>
+      <link>https://www.vishalmishra.in/post/automate-manual-static-code-analysis/</link>
+      <pubDate>Tue, 08 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/automate-manual-static-code-analysis/</guid>
+      <description>Antlr: Automate Manual SAST Activity I came across this wonderful which can understand any grammar and can be very helpful for people who do lot of manual source code analysis. This unlike the common grepping allows you to find specifics by programming it in many languages. Just to showcase the power of tool, I will be using antlr in python to find uninitialized varaibles in java code base. So before I get started you need to download the latest copy of antlr jar and install python library.</description>
+    </item>
+    
+    <item>
+      <title>CTF: Cracking RSA Encryption</title>
+      <link>https://www.vishalmishra.in/post/ctf-cracking-rsa-encryption/</link>
+      <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/ctf-cracking-rsa-encryption/</guid>
+      <description>Crypt: Crack Poor RSA **Challenge:**
+N = 58900433780152059829684181006276669633073820320761216330291745734792546625247
+C = 56191946659070299323432594589209132754159316947267240359739328886944131258862
+e = 65537
+Reverse encrypted text C to plain text
+Below is my code to crack RSA with given N, C &amp;amp; e. {works on py2+}
+from Crypto.PublicKey import RSAimport gmpy2def int2Text(number, size):text = &amp;#34;&amp;#34;.join([chr((number &amp;gt;&amp;gt; j) &amp;amp; 0xff) for j in reversed(range(0, size &amp;lt;&amp;lt; 3, 8))])return text.lstrip(&amp;#34;\x00&amp;#34;)N = 58900433780152059829684181006276669633073820320761216330291745734792546625247C = 56191946659070299323432594589209132754159316947267240359739328886944131258862e = 65537L#http://factordb.</description>
+    </item>
+    
+    <item>
+      <title>CTF: Back in Time</title>
+      <link>https://www.vishalmishra.in/post/ctf-crypt-back-in-time/</link>
+      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/ctf-crypt-back-in-time/</guid>
+      <description>Crypt: Back in Time **Challenge:**
+I always hated history class. I thought history would never come in handy. With challenge there are two files:
+1: encrypt.py
+2: cipheretext.txt
+Below is the content of encrypt.py file
+import randomalpha = &amp;#34;abcdefghijklmnopqrstuvwxyz&amp;#34;key = &amp;#39;&amp;#39;.join(random.sample(alpha,len(alpha)))print keyassert(len(alpha) == 26)plaintext = open(&amp;#34;plaintext.txt&amp;#34;).read()ciphertext = &amp;#34;&amp;#34;sub_dict = {}for i in range(len(alpha)):sub_dict[alpha[i]] = key[i]for i in range(len(plaintext)):if plaintext[i] in alpha:ciphertext += sub_dict[plaintext[i]]else:ciphertext += plaintext[i]open(&amp;#34;ciphertext.</description>
+    </item>
+    
+    <item>
+      <title>Exploiting  CVE-2017-14385</title>
+      <link>https://www.vishalmishra.in/post/exploiting-cve-2017-14385/</link>
+      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/exploiting-cve-2017-14385/</guid>
+      <description>Attack An issue was discovered in EMC Data Domain DD OS 5.7 family, versions prior to 5.7.5.6; EMC Data Domain DD OS 6.0 family, versions prior to 6.0.2.9; EMC Data Domain DD OS 6.1 family, versions prior to 6.1.0.21; EMC Data Domain Virtual Edition 2.0 family, all versions; EMC Data Domain Virtual Edition 3.0 family, versions prior to 3.0 SP2 Update 1; and EMC Data Domain Virtual Edition 3.1 family, versions prior to 3.</description>
+    </item>
+    
+    <item>
+      <title>Spectre Attack</title>
+      <link>https://www.vishalmishra.in/post/spectre-attack/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/spectre-attack/</guid>
+      <description>Spectre Attack POC 
+Video: Spectre Attack POC on Intel i7-6820HQ
+References:  Spectre Attack Github  </description>
+    </item>
+    
+    <item>
+      <title>CLI Security Testing: Stack Smashing</title>
+      <link>https://www.vishalmishra.in/post/stack-smashing/</link>
+      <pubDate>Thu, 04 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/stack-smashing/</guid>
+      <description>Fuzzing Command Line Utilities Following up from one of my previous article, I will be fuzzing CLI params using JAFFY fuzzer and try to smash the stack on a vulnerable program.
+Jaffy can fuzz binaries that you run on the command line. It takes a simple XML as input to specify the arguments details and you are ready to go. In order to run jaffy you need to install this python3 module:</description>
+    </item>
+    
+    <item>
+      <title>CLI Security Testing</title>
+      <link>https://www.vishalmishra.in/post/cli-security-testing/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/cli-security-testing/</guid>
+      <description>Command Line Interface Security Testing CLIs (Command Line Interface/Utility) offer a lot of commands to make system information easily available &amp;amp; manageable. Many of these commands offer various arguments (functionalities). These command line utilities and their arguments should be programmed in such a way that they should not be vulnerable or contain any logical flaw that can allow malicious user of CLI to escalate privilege, access unauthorized info, bypass ACL etc.</description>
+    </item>
+    
+    <item>
+      <title>Nodejs Mutation Based Fuzzer</title>
+      <link>https://www.vishalmishra.in/post/nodejs-mutation-based-fuzzer/</link>
+      <pubDate>Thu, 21 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/nodejs-mutation-based-fuzzer/</guid>
+      <description>Mutation Fuzzers (AKA Dumb Fuzzers 😉) Mutation Fuzzers are all about mutating the existing input values (blindly). That’s why it is known as “dumb” fuzzers, as it lacks understanding of the complete format/structure of the data. One example of data mutation can be just replacing/appending a random section of data. Some methods used by mutation fuzzers to generate the data are:
+ Bit flipping Random postfix Random prefix encoding disruption  We will be looking at one of the mutation based fuzzer written in NodeJS today.</description>
+    </item>
+    
+    <item>
+      <title>Mutation Testing to uncover Zero Days</title>
+      <link>https://www.vishalmishra.in/post/mutation-testing/</link>
+      <pubDate>Mon, 18 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/mutation-testing/</guid>
+      <description>Mutation Test The Mutation Test is a technique that was proposed by De-Millo and it consists on creating a set of faulty versions of the test program called mutants. The goal for the tester is then to write a series of tests that can distinguish the original program from all its mutants. This technique not only help in generate very good data set for testing but also help in uncovering dark corners of software.</description>
+    </item>
+    
+    <item>
+      <title>Exploiting CVE-2017-16665</title>
+      <link>https://www.vishalmishra.in/post/exploiting-cve-2017-16665/</link>
+      <pubDate>Fri, 08 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/exploiting-cve-2017-16665/</guid>
+      <description>Attack RemObjects Remoting SDK 9 1.0.0.0 for Delphi is vulnerable to a reflected Cross Site Scripting (XSS) attack via the service parameter to the /soap URI, triggering an invalid attempt to generate WSDL.
+RemObjects Remoting SDK
+Clients are applications that talk to your servers, and Remoting SDK allows you to add client functionality to apps written in just about any modern programming tool, and for all current platforms: Cocoa developers can use our native Cocoa frameworks from Swift, Objective-C, Oxygene or RemObjects C#</description>
+    </item>
+    
+  </channel>
+</rss>

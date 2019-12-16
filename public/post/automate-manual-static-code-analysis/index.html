@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<meta name="description" content=''>
+	<meta name="keywords" content=''>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href='https://www.vishalmishra.in/css/bootstrap.min.css'>
+	<title>Automate Manual Static Code Analysis</title>
+	<nav class="navbar text-center sticky-top bg-white mt-2 mb-1">
+		<a href='https://www.vishalmishra.in/'><span class="btn btn-sm btn-outline-primary">Home</span></a>
+		<a href='https://www.vishalmishra.in/about'><span class="btn btn-sm btn-outline-secondary">About</span></a>
+		<a href='https://www.vishalmishra.in/post'><span class="btn btn-sm btn-outline-success">Blog</span></a>
+		<a href='https://www.vishalmishra.in/tags'><span class="btn btn-sm btn-outline-warning">Tags</span></a>
+	</nav>
+</head>
+<body>
+      <div id="content">
+
+
+	<section class="container text-monospace text-justified mt-3">
+	  <h2>Automate Manual Static Code Analysis</h2>
+	  <small class="text-secondary mb-5">Posted on May 8, 2018 | 2 minute read</small>
+	  <p><h4 id="antlr-automate-manual-sast-activity"><strong>Antlr: Automate Manual SAST Activity</strong></h4>
+<p>I came across this wonderful which can understand any grammar and can be very helpful for people who do lot of manual source code analysis. This unlike the common grepping allows you to find specifics by programming it in many languages.
+Just to showcase the power of tool, I will be using antlr in python to find uninitialized varaibles in java code base.
+So before I get started you need to download the latest copy of antlr jar and install python library. Also inorder to feed the grammar to antlr download the .g4 aka grammar definition file for the target language.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://www.antlr.org/download/antlr-4.7.1-complete.jar
+wget https://raw.githubusercontent.com/antlr/grammars-v4/master/java/JavaLexer.g4
+wget https://raw.githubusercontent.com/antlr/grammars-v4/master/java/JavaParser.g4
+java -jar ./antlr-4.7.1-complete.jar -Dlanguage<span style="color:#f92672">=</span>Python3 ./JavaLexer.g4
+java -jar ./antlr-4.7.1-complete.jar -Dlanguage<span style="color:#f92672">=</span>Python3 ./JavaParser.g4
+pip install antlr4-python3-runtime
+
+</code></pre></div><p>Here is my simple parser to fetch declared but not uninitialized variables in python using antlr.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">import</span> sys
+<span style="color:#f92672">from</span> antlr4 <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+<span style="color:#f92672">from</span> JavaLexer <span style="color:#f92672">import</span> JavaLexer
+<span style="color:#f92672">from</span> JavaParser <span style="color:#f92672">import</span> JavaParser
+<span style="color:#f92672">from</span> JavaParserListener <span style="color:#f92672">import</span> JavaParserListener
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">enterImportDeclarationPrinter</span>(JavaParserListener):     
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">enterImportDeclaration</span>(self, ctx):       
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Found Import</span><span style="color:#e6db74">&#39;</span>)
+        <span style="color:#66d9ef">print</span>(ctx<span style="color:#f92672">.</span>getText())
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">enterVariableDeclaratorsPrinter</span>(JavaParserListener):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">enterVariableDeclarators</span>(self,ctx):
+        varx <span style="color:#f92672">=</span> ctx<span style="color:#f92672">.</span>getText()<span style="color:#f92672">.</span>split(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">,</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">for</span> newvar <span style="color:#f92672">in</span> varx:
+            <span style="color:#66d9ef">if</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">=</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> newvar:
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Variable declared but not initialized: </span><span style="color:#e6db74">&#34;</span>,newvar)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>(argv):
+    input <span style="color:#f92672">=</span> FileStream(argv[<span style="color:#ae81ff">1</span>])
+    lexer <span style="color:#f92672">=</span> JavaLexer(input)
+    stream <span style="color:#f92672">=</span> CommonTokenStream(lexer)
+    parser <span style="color:#f92672">=</span> JavaParser(stream)
+    tree <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>compilationUnit()
+    printer <span style="color:#f92672">=</span> enterVariableDeclaratorsPrinter()
+    walker <span style="color:#f92672">=</span> ParseTreeWalker()
+    walker<span style="color:#f92672">.</span>walk(printer, tree)
+
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#39;</span>:
+    main(sys<span style="color:#f92672">.</span>argv)
+
+</code></pre></div><p>Now it's time to run the script on the source file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 sastUninit.py Sample.java Variable declared but not initialized:  apple
+Variable declared but not initialized:  mango
+Variable declared but not initialized:  hehe
+Variable declared but not initialized:  hoho
+.
+.
+.
+
+</code></pre></div></p>
+	  <code>tags:<span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/security%20testing'>Security Testing</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/0-day'>0-day</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/sast'>SAST</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/python'>Python</a></span>
+	  
+	  </code>
+	  <div class="container mt-2" id="comments">
+	    
+		<small class="mt-1">Please mail your comments to <a href="vishal_mishra@live.com">vishal_mishra@live.com</a></small><br>
+	    
+	  </div>
+	</section>
+
+
+
+      </div>
+  </body><footer>
+  <div class="container-fluid bg-dark text-white text-monospace text-center mt-4">
+    <small> | Powered by <a href="https://gohugo.io">Hugo</a></small>
+  </div>
+  
+</footer>
+</html>

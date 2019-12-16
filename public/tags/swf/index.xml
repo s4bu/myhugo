@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SWF on Vishal Mishra</title>
+    <link>https://www.vishalmishra.in/tags/swf/</link>
+    <description>Recent content in SWF on Vishal Mishra</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 01 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.vishalmishra.in/tags/swf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bypass Cross Site Request Forgery Protection</title>
+      <link>https://www.vishalmishra.in/post/bypass-csrf-protection/</link>
+      <pubDate>Fri, 01 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/bypass-csrf-protection/</guid>
+      <description>Attack Cross Site Request Forgery (CSRF) is an attack where a malicious entity tricks a victim into performing actions on behalf of the attacker. The impact of the attack would depend on the level of authorization that the victim who is being exploited is having into the system. The most popular implementation to prevent Cross-site Request Forgery (CSRF), is to make use of a nonce that is associated with a particular user and it&#39;s current view model of the web page.</description>
+    </item>
+    
+  </channel>
+</rss>

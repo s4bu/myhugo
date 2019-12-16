@@ -10,9 +10,9 @@ comments: false
 
 | Name          | Vishal Mishra                                      |
 |:------------- |:---------------------------------------------------| 
-| Occupation    |         Security Reseacher                         | 
-| Education     |       Master of Engineering in Information Security| 
-| Contact       |         vishal_mishra@live.com                     |  
+| Occupation:   |         Security Reseacher                         | 
+| Education:    |       M.E. Information Security| 
+| Contact:      |         vishal_mishra@live.com                     |  
 
 
 

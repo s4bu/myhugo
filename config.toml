@@ -1,11 +1,17 @@
 baseURL = "https://www.vishalmishra.in/"
 languageCode = "en"
 title = "Vishal Mishra"
-theme = "hugo-nuo"
+theme = "monopriv"
+copyright = " © 2019 Vishal (aLt)"
 enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
 enableEmoji=true
+disqus = true
+
+
+[markup.goldmark.renderer]
+unsafe= true
 
 # Disqus Username
 disqusShortname = "vishalmishra"
@@ -14,7 +20,7 @@ disqusShortname = "vishalmishra"
 googleAnalytics = "UA-111664182-1"
 
 # Copyright of your post
-copyright = " © 2019 Vishal (aLt). All Rights Reserved " 
+copyright = " © 2019 Vishal (aLt). All Rights Reserved "
 
 # Initial site menu, you can extend menu with content.
 [[menu.main]]
@@ -42,6 +48,13 @@ copyright = " © 2019 Vishal (aLt). All Rights Reserved "
 
   # Choose your social networks
   email = "vishal_mishra@live.com"
-  github = "s4bu"
+  github = "https://github.com/s4bu"
   twitter = "vishal_alt"
   linkedin = "m-vishal"
+  gitlab = "https://www.linkedin.com/in/m-vishal/"
+
+
+[imaging]
+resampleFilter = "lanczos"
+anchor = "smart"
+quality = 90

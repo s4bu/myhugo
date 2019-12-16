@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security Automation on Vishal Mishra</title>
+    <link>https://www.vishalmishra.in/tags/security-automation/</link>
+    <description>Recent content in Security Automation on Vishal Mishra</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 23 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.vishalmishra.in/tags/security-automation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Agile Web Security Automation</title>
+      <link>https://www.vishalmishra.in/post/websecuritytesting-automation/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.vishalmishra.in/post/websecuritytesting-automation/</guid>
+      <description>Agile Web Security Automation Automation of application security scans are becoming very common these days. With the advent of devops security and appsec pipeline tools, it has made easy to manage, maintain and scale activities like job scheduling, report generalization from different tool, and SDL integration. Such pipelines once developed requires minimum intervention until the reports are ready and triage needs to be done after that only. In order to maintain a good balance of unique applications and result quality of scanners it is very import to run automations setup and their health check following agile methodolgy.</description>
+    </item>
+    
+  </channel>
+</rss>

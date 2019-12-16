@@ -1,15 +1,15 @@
 ---
 title: "Automate Manual Static Code Analysis"
 tags: [ "Security Testing", "0-day", "SAST", "Python"]
-date: 2018-05-08 
+date: 2018-05-08
 cover: "/media/CommandMyUnknownLord.gif"
 ---
 
 
-#### **Antlr: Automate Manual SAST Activity** 
+#### **Antlr: Automate Manual SAST Activity**
 
 I came across this wonderful which can understand any grammar and can be very helpful for people who do lot of manual source code analysis. This unlike the common grepping allows you to find specifics by programming it in many languages.
-Just to showcase the power of tool, I will be using antlr in python to find uninitialized varaibles in java code base. 
+Just to showcase the power of tool, I will be using antlr in python to find uninitialized varaibles in java code base.
 So before I get started you need to download the latest copy of antlr jar and install python library. Also inorder to feed the grammar to antlr download the .g4 aka grammar definition file for the target language.
 
 ```bash
@@ -23,9 +23,9 @@ pip install antlr4-python3-runtime
 ```
 
 
-Here is my simple parser to fetch declared but not uninitialized variables in python using antlr. 
+Here is my simple parser to fetch declared but not uninitialized variables in python using antlr.
 
-```python
+```Python
 import sys
 from antlr4 import *
 from JavaLexer import JavaLexer
@@ -55,9 +55,9 @@ def main(argv):
     printer = enterVariableDeclaratorsPrinter()
     walker = ParseTreeWalker()
     walker.walk(printer, tree)
-    
-    
- 
+
+
+
 if __name__ == '__main__':
     main(sys.argv)
 
@@ -76,4 +76,3 @@ Variable declared but not initialized:  hoho
 .
 
 ```
-
