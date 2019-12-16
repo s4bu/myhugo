@@ -10,7 +10,7 @@ branches:
 
 before_script:
     - npm i -g firebase firebase-tools@7.6.1
-    - wget hhttps://github.com/gohugoio/hugo/releases/download/v0.61.0/hugo_0.61.0_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
+    - wget https://github.com/gohugoio/hugo/releases/download/v0.61.0/hugo_0.61.0_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
     - tar -zxvf /tmp/hugo.tar.gz
     - export PATH=$PATH:$PWD/hugo_0.19_linux_amd64/
 
