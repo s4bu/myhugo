@@ -7,7 +7,7 @@ enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
 enableEmoji=true
-disqus = true
+
 
 
 [markup.goldmark.renderer]
@@ -45,7 +45,7 @@ copyright = " © 2019 Vishal (aLt). All Rights Reserved "
   subtitle = "~ Keep It Simple & Stupid ~"
   description = "Vishal Mishra"
   paginate = 10
-
+  disqus = true
   # Choose your social networks
   email = "vishal_mishra@live.com"
   github = "https://github.com/s4bu"
