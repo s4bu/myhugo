@@ -7,8 +7,7 @@ enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
 enableEmoji=true
-# Disqus Username
-disqusShortname = "vishalmishra"
+
 
 # Google Analytics UA number
 googleAnalytics = "UA-111664182-1"
