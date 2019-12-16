@@ -7,12 +7,6 @@ enableRobotsTXT = true
 PygmentsCodeFences = true
 canonifyurls = true
 enableEmoji=true
-
-
-
-[markup.goldmark.renderer]
-unsafe= true
-
 # Disqus Username
 disqusShortname = "vishalmishra"
 
@@ -36,7 +30,6 @@ copyright = " © 2019 Vishal (aLt). All Rights Reserved "
   url = "/tags/"
 
 
-
 # Add your own params here
 [params]
   author = "Vishal Mishra"
@@ -58,3 +51,7 @@ copyright = " © 2019 Vishal (aLt). All Rights Reserved "
 resampleFilter = "lanczos"
 anchor = "smart"
 quality = 90
+
+
+[markup.goldmark.renderer]
+unsafe= true
