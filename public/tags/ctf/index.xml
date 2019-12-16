@@ -1,44 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>CTF on Vishal Mishra</title>
-    <link>https://www.vishalmishra.in/tags/ctf/</link>
-    <description>Recent content in CTF on Vishal Mishra</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Mon, 07 May 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://www.vishalmishra.in/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>CTF: Cracking RSA Encryption</title>
-      <link>https://www.vishalmishra.in/post/ctf-cracking-rsa-encryption/</link>
-      <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.vishalmishra.in/post/ctf-cracking-rsa-encryption/</guid>
-      <description>Crypt: Crack Poor RSA **Challenge:**
-N = 58900433780152059829684181006276669633073820320761216330291745734792546625247
-C = 56191946659070299323432594589209132754159316947267240359739328886944131258862
-e = 65537
-Reverse encrypted text C to plain text
-Below is my code to crack RSA with given N, C &amp;amp; e. {works on py2+}
-from Crypto.PublicKey import RSAimport gmpy2def int2Text(number, size):text = &amp;#34;&amp;#34;.join([chr((number &amp;gt;&amp;gt; j) &amp;amp; 0xff) for j in reversed(range(0, size &amp;lt;&amp;lt; 3, 8))])return text.lstrip(&amp;#34;\x00&amp;#34;)N = 58900433780152059829684181006276669633073820320761216330291745734792546625247C = 56191946659070299323432594589209132754159316947267240359739328886944131258862e = 65537L#http://factordb.</description>
-    </item>
-    
-    <item>
-      <title>CTF: Back in Time</title>
-      <link>https://www.vishalmishra.in/post/ctf-crypt-back-in-time/</link>
-      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.vishalmishra.in/post/ctf-crypt-back-in-time/</guid>
-      <description>Crypt: Back in Time **Challenge:**
-I always hated history class. I thought history would never come in handy. With challenge there are two files:
-1: encrypt.py
-2: cipheretext.txt
-Below is the content of encrypt.py file
-import randomalpha = &amp;#34;abcdefghijklmnopqrstuvwxyz&amp;#34;key = &amp;#39;&amp;#39;.join(random.sample(alpha,len(alpha)))print keyassert(len(alpha) == 26)plaintext = open(&amp;#34;plaintext.txt&amp;#34;).read()ciphertext = &amp;#34;&amp;#34;sub_dict = {}for i in range(len(alpha)):sub_dict[alpha[i]] = key[i]for i in range(len(plaintext)):if plaintext[i] in alpha:ciphertext += sub_dict[plaintext[i]]else:ciphertext += plaintext[i]open(&amp;#34;ciphertext.</description>
-    </item>
-    
-  </channel>
-</rss>

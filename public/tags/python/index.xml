@@ -1,62 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Python on Vishal Mishra</title>
-    <link>https://www.vishalmishra.in/tags/python/</link>
-    <description>Recent content in Python on Vishal Mishra</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Tue, 08 May 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://www.vishalmishra.in/tags/python/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Automate Manual Static Code Analysis</title>
-      <link>https://www.vishalmishra.in/post/automate-manual-static-code-analysis/</link>
-      <pubDate>Tue, 08 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.vishalmishra.in/post/automate-manual-static-code-analysis/</guid>
-      <description>Antlr: Automate Manual SAST Activity I came across this wonderful which can understand any grammar and can be very helpful for people who do lot of manual source code analysis. This unlike the common grepping allows you to find specifics by programming it in many languages. Just to showcase the power of tool, I will be using antlr in python to find uninitialized varaibles in java code base. So before I get started you need to download the latest copy of antlr jar and install python library.</description>
-    </item>
-    
-    <item>
-      <title>CTF: Cracking RSA Encryption</title>
-      <link>https://www.vishalmishra.in/post/ctf-cracking-rsa-encryption/</link>
-      <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.vishalmishra.in/post/ctf-cracking-rsa-encryption/</guid>
-      <description>Crypt: Crack Poor RSA **Challenge:**
-N = 58900433780152059829684181006276669633073820320761216330291745734792546625247
-C = 56191946659070299323432594589209132754159316947267240359739328886944131258862
-e = 65537
-Reverse encrypted text C to plain text
-Below is my code to crack RSA with given N, C &amp;amp; e. {works on py2+}
-from Crypto.PublicKey import RSAimport gmpy2def int2Text(number, size):text = &amp;#34;&amp;#34;.join([chr((number &amp;gt;&amp;gt; j) &amp;amp; 0xff) for j in reversed(range(0, size &amp;lt;&amp;lt; 3, 8))])return text.lstrip(&amp;#34;\x00&amp;#34;)N = 58900433780152059829684181006276669633073820320761216330291745734792546625247C = 56191946659070299323432594589209132754159316947267240359739328886944131258862e = 65537L#http://factordb.</description>
-    </item>
-    
-    <item>
-      <title>CTF: Back in Time</title>
-      <link>https://www.vishalmishra.in/post/ctf-crypt-back-in-time/</link>
-      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.vishalmishra.in/post/ctf-crypt-back-in-time/</guid>
-      <description>Crypt: Back in Time **Challenge:**
-I always hated history class. I thought history would never come in handy. With challenge there are two files:
-1: encrypt.py
-2: cipheretext.txt
-Below is the content of encrypt.py file
-import randomalpha = &amp;#34;abcdefghijklmnopqrstuvwxyz&amp;#34;key = &amp;#39;&amp;#39;.join(random.sample(alpha,len(alpha)))print keyassert(len(alpha) == 26)plaintext = open(&amp;#34;plaintext.txt&amp;#34;).read()ciphertext = &amp;#34;&amp;#34;sub_dict = {}for i in range(len(alpha)):sub_dict[alpha[i]] = key[i]for i in range(len(plaintext)):if plaintext[i] in alpha:ciphertext += sub_dict[plaintext[i]]else:ciphertext += plaintext[i]open(&amp;#34;ciphertext.</description>
-    </item>
-    
-    <item>
-      <title>Quadratic Blowup Attack</title>
-      <link>https://www.vishalmishra.in/post/xml-quadratic-blowup-attack/</link>
-      <pubDate>Mon, 04 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.vishalmishra.in/post/xml-quadratic-blowup-attack/</guid>
-      <description>Attack An XML quadratic blowup attack is similar to a Billion Laughs attack. Essentially, it exploits the use of entity expansion. Instead of deferring to the use of nested entities, it replicates one large entity using a couple thousand characters repeatedly. These attacks exists becasue applications often need to transform data in and out of the XML format by using an XML parser. It may be possible for an attacker to inject data that may have an adverse effect on the XML parser when it is being processed.</description>
-    </item>
-    
-  </channel>
-</rss>
